@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Razorpay Test Checkout</title>
+</head>
+<body>
+  <h2>Razorpay Test Checkout</h2>
+  <p>Click the button below to open the test payment popup.</p>
+  <button id="pay-btn">Pay Now</button>
+
+  <!-- This is Razorpay's official checkout script - required to open their payment popup -->
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script>
+    document.getElementById('pay-btn').onclick = function () {
+      var options = {
+        // PASTE YOUR RAZORPAY_KEY_ID HERE (the public key, NOT the secret)
+        "key": "rzp_test_TUsHWK6Y3OZeu6",
+
+        // PASTE THE ORDER ID PRINTED BY main.py HERE (e.g. "order_TUsNZlNdmp465L")
+        "order_id": "order_TV6tZx17M0p7kM",
+
+        "name": "Test Merchant",
+        "description": "Buildathon test payment",
+        "handler": function (response) {
+          // This runs after a successful test payment
+          alert("Payment successful! Payment ID: " + response.razorpay_payment_id);
+          console.log(response);
+        },
+        "theme": {
+          "color": "#3399cc"
+        }
+      };
+      var rzp = new Razorpay(options);
+      rzp.open();
+    };
+  </script>
+</body>
+</html>
