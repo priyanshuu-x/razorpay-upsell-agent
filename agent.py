@@ -7,13 +7,12 @@ def propose_upsell(order_item: str) -> dict | None:
     Returns a proposal dict if a bounded, approved upsell exists.
     Returns None if there's no match, or if it fails the safety check.
     """
-    # Look up the item (case-insensitive, so "Phone Case" and "phone case" both match)
+
     rule = UPSELL_RULES.get(order_item.lower())
 
     if rule is None:
-        return None  # No upsell rule exists for this item - agent does nothing
+        return None 
 
-    # Safety check - even a pre-approved rule can never exceed the price ceiling
     if rule["price_paise"] > MAX_UPSELL_PRICE_PAISE:
         return None
 
@@ -25,7 +24,6 @@ def propose_upsell(order_item: str) -> dict | None:
     }
 
 
-# --- Quick manual test, so we can see it working before wiring it to anything else ---
 if __name__ == "__main__":
     test_orders = ["phone case", "coffee mug", "yoga mat", "laptop"]
 

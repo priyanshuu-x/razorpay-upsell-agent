@@ -5,24 +5,28 @@
 </head>
 <body>
   <h2>Razorpay Test Checkout</h2>
-  <p>Click the button below to open the test payment popup.</p>
+
+  <label for="order-id-input">Order ID:</label>
+  <input type="text" id="order-id-input" placeholder="order_xxxxxxxxxxxx" size="30">
+  <br><br>
   <button id="pay-btn">Pay Now</button>
 
-  <!-- This is Razorpay's official checkout script - required to open their payment popup -->
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   <script>
     document.getElementById('pay-btn').onclick = function () {
+      var orderId = document.getElementById('order-id-input').value.trim();
+
+      if (!orderId) {
+        alert("Please paste an order ID first.");
+        return;
+      }
+
       var options = {
-        // PASTE YOUR RAZORPAY_KEY_ID HERE (the public key, NOT the secret)
-        "key": "rzp_test_TUsHWK6Y3OZeu6",
-
-        // PASTE THE ORDER ID PRINTED BY main.py HERE (e.g. "order_TUsNZlNdmp465L")
-        "order_id": "order_TV6tZx17M0p7kM",
-
+        "key": "rzp_test_TUsHWK6Y3OZeu6",  
+        "order_id": orderId,            
         "name": "Test Merchant",
         "description": "Buildathon test payment",
         "handler": function (response) {
-          // This runs after a successful test payment
           alert("Payment successful! Payment ID: " + response.razorpay_payment_id);
           console.log(response);
         },

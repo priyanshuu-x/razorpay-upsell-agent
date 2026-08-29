@@ -15,8 +15,7 @@ client = razorpay.Client(
     auth=(os.getenv("RAZORPAY_KEY_ID"), os.getenv("RAZORPAY_KEY_SECRET"))
 )
 
-# We keep a tiny in-memory map so /confirm-payment knows which proposal
-# belongs to which order_id, without needing a real database for this demo.
+
 pending_upsells = {}
 
 
@@ -25,7 +24,7 @@ class OrderRequest(BaseModel):
 
 
 class PaymentConfirmation(BaseModel):
-    payment_id: str | None = None  # None if the checkout failed/was abandoned
+    payment_id: str | None = None  
 
 
 @app.get("/")
@@ -61,7 +60,7 @@ def create_order(order: OrderRequest):
         }
     })
 
-    # Remember this proposal so /confirm-payment can log it correctly later
+
     pending_upsells[upsell_order["id"]] = proposal
 
     return {
